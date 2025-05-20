@@ -1,19 +1,99 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:padding="16dp"
+    android:background="#FFFFFF">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Khung nhập text -->
+        <EditText
+            android:id="@+id/editTextInput"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:hint="Nhập text hoặc dán nội dung truyện"
+            android:background="@drawable/bg_rounded"
+            android:padding="16dp"
+            android:gravity="top"
+            android:textSize="16sp" />
+
+        <!-- Nút chọn file -->
+        <Button
+            android:id="@+id/btnChooseFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn file (.txt)"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_rounded_button"
+            android:textColor="#000000" />
+
+        <!-- Khung prompt hiển thị -->
+        <TextView
+            android:id="@+id/textPromptOutput"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:text="Prompt sẽ hiển thị ở đây"
+            android:background="@drawable/bg_rounded"
+            android:textSize="15sp" />
+
+        <!-- Thanh chọn template prompt -->
+        <EditText
+            android:id="@+id/editPromptTemplate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Nhập prompt tuỳ chỉnh (nếu muốn)"
+            android:background="@drawable/bg_rounded"
+            android:padding="12dp"
+            android:textSize="14sp" />
+
+        <!-- Thông tin định dạng -->
+        <TextView
+            android:id="@+id/textFormats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Định dạng chấp nhận: .txt\nChỉ nhập văn bản thuần"
+            android:textSize="13sp"
+            android:layout_marginTop="12dp"
+            android:textColor="#666666" />
+
+        <!-- Hàng 2 nút cuối -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="space-between"
+            android:layout_marginTop="24dp">
+
+            <Button
+                android:id="@+id/btnTranslate"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Dịch"
+                android:background="@drawable/bg_rounded_button"
+                android:textColor="#000000" />
+
+            <Space
+                android:layout_width="16dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnSettings"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Cài đặt"
+                android:background="@drawable/bg_rounded_button"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
