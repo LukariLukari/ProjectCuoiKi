@@ -1,6 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="24dp"
+    android:paddingBottom="32dp"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
+    android:background="#FFFFFF">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Khung hiển thị kết quả dịch -->
+    <TextView
+        android:id="@+id/textTranslatedResult"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_rounded"
+        android:padding="16dp"
+        android:text="Kết quả sau khi dịch sẽ hiển thị tại đây"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:gravity="top"
+        android:scrollbars="vertical" />
+
+    <!-- Nút xuất file -->
+    <Button
+        android:id="@+id/btnExportFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Xuất File"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_rounded_button"
+        android:textColor="#000000" />
+
+</LinearLayout>
