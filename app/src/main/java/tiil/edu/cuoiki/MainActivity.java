@@ -1,7 +1,10 @@
 package tiil.edu.cuoiki;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
@@ -39,7 +42,30 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_dropdown_item,
                 promptTemplates
         );
-
         spinner.setAdapter(adapter);
+
+        // Xử lý nút "Dịch"
+        Button btnTranslate = findViewById(R.id.btnTranslate);
+        btnTranslate.setOnClickListener(v -> {
+            EditText inputText = findViewById(R.id.editTextInput);
+            EditText promptText = findViewById(R.id.editTextPrompt);
+            String content = inputText.getText().toString().trim();
+            String prompt = promptText.getText().toString().trim();
+            String template = spinner.getSelectedItem().toString();
+
+            // Dữ liệu giả (chỉ nối lại) — bạn có thể xử lý dịch thật tại đây
+            String result = "Prompt: " + prompt + "\nTemplate: " + template + "\n\n" + content;
+
+            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+            intent.putExtra("translated_result", result);
+            startActivity(intent);
+        });
+
+        // Xử lý nút "Cài đặt"
+        Button btnSettings = findViewById(R.id.btnSettings);
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(intent);
+        });
     }
 }

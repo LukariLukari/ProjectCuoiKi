@@ -120,5 +120,18 @@
             android:gravity="center"
             android:layout_marginTop="12dp"
             android:textSize="16sp"/>
+        <!-- Nút Lưu -->
+        <Button
+            android:id="@+id/btnSaveSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lưu cài đặt"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4CAF50"
+            android:background="@drawable/bg_rounded_button"/>
+
     </LinearLayout>
 </ScrollView>
