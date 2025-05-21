@@ -12,15 +12,15 @@
     <TextView
         android:id="@+id/textTranslatedResult"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="300dp"
         android:layout_weight="1"
         android:background="@drawable/bg_rounded"
-        android:padding="16dp"
-        android:text="Kết quả sau khi dịch sẽ hiển thị tại đây"
-        android:textSize="16sp"
-        android:textColor="#000000"
         android:gravity="top"
-        android:scrollbars="vertical" />
+        android:padding="16dp"
+        android:scrollbars="vertical"
+        android:text="Kết quả sau khi dịch sẽ hiển thị tại đây"
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
     <!-- Nút xuất file -->
     <Button
