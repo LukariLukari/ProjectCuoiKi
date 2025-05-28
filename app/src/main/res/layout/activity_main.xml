@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
@@ -42,13 +43,73 @@
         <EditText
             android:id="@+id/editTextPrompt"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="120dp"
             android:layout_marginTop="16dp"
             android:padding="16dp"
             android:hint="Nhập prompt chính"
             android:background="@drawable/bg_rounded"
             android:gravity="top"
             android:textSize="15sp" />
+
+        <!-- Dòng mô hình miễn phí -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mô hình miễn phí:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:textSize="14sp"
+            android:textColor="#444444" />
+
+        <!-- RadioGroup + icon ? -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical">
+
+            <RadioGroup
+                android:id="@+id/radioModelGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioGemini"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gemini 1.0"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp" />
+
+                <Space
+                    android:layout_width="16dp"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:id="@+id/radioDeepseek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deepseek V3"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp" />
+            </RadioGroup>
+
+            <ImageView
+                android:id="@+id/helpIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:layout_marginStart="12dp"
+                android:src="@android:drawable/ic_menu_help"
+                android:contentDescription="Trợ giúp"
+                android:clickable="true"
+                android:focusable="true"
+                android:tooltipText="Đây là mô hình miễn phí, chỉ dùng 1 request/phút và không quá 5000 token" />
+        </LinearLayout>
 
         <!-- Dropdown chọn template prompt -->
         <androidx.appcompat.widget.AppCompatSpinner
@@ -58,9 +119,11 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_spinner_with_icon"
             android:paddingEnd="36dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:minHeight="48dp"
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:spinnerMode="dropdown" />
-
 
         <!-- Thông tin định dạng -->
         <TextView
@@ -101,6 +164,5 @@
                 android:text="Cài đặt"
                 android:textColor="#000000" />
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>
