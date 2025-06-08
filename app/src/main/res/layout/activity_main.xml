@@ -18,17 +18,18 @@
         android:paddingEnd="32dp">
 
         <!-- Khung nhập text -->
+
+        <!-- Nút chọn file -->
         <EditText
             android:id="@+id/editTextInput"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:hint="Nhập text hoặc dán nội dung truyện"
             android:background="@drawable/bg_rounded"
-            android:padding="16dp"
             android:gravity="top"
+            android:hint="Nhập text hoặc dán nội dung truyện"
+            android:padding="16dp"
             android:textSize="16sp" />
 
-        <!-- Nút chọn file -->
         <Button
             android:id="@+id/btnChooseFile"
             android:layout_width="wrap_content"
@@ -37,7 +38,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_rounded_button"
-            android:textColor="#000000" />
+            android:textColor="#fff" />
 
         <!-- Ô nhập prompt chính -->
         <EditText
@@ -59,7 +60,7 @@
             android:textStyle="bold"
             android:layout_marginTop="12dp"
             android:textSize="14sp"
-            android:textColor="#444444" />
+            android:textColor="#b35a02" />
 
         <!-- RadioGroup + icon ? -->
         <LinearLayout
@@ -82,7 +83,8 @@
                     android:layout_height="wrap_content"
                     android:text="Gemini 1.0"
                     android:minHeight="48dp"
-                    android:minWidth="48dp" />
+                    android:minWidth="48dp"
+                    android:textColor="#b35a02"/>
 
                 <Space
                     android:layout_width="16dp"
@@ -94,7 +96,8 @@
                     android:layout_height="wrap_content"
                     android:text="Deepseek V3"
                     android:minHeight="48dp"
-                    android:minWidth="48dp" />
+                    android:minWidth="48dp"
+                    android:textColor="#b35a02"/>
             </RadioGroup>
 
             <ImageView
@@ -133,7 +136,7 @@
             android:text="Định dạng chấp nhận: .txt\nChỉ nhập văn bản thuần"
             android:textSize="13sp"
             android:layout_marginTop="12dp"
-            android:textColor="#666666" />
+            android:textColor="#b35a02" />
 
         <!-- Hàng 2 nút cuối -->
         <LinearLayout
@@ -149,7 +152,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_rounded_button"
                 android:text="Dịch"
-                android:textColor="#000000" />
+                android:textColor="#fff" />
 
             <Space
                 android:layout_width="16dp"
@@ -162,7 +165,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_rounded_button"
                 android:text="Cài đặt"
-                android:textColor="#000000" />
+                android:textColor="#fff" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

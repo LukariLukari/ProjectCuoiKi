@@ -17,6 +17,10 @@ import android.widget.PopupWindow;
 import android.view.Gravity;
 import android.widget.RadioGroup;
 import android.widget.RadioButton;
+import android.graphics.Color;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,12 +51,29 @@ public class MainActivity extends AppCompatActivity {
                 "Dịch sáng tạo",
                 "Tóm tắt ý chính"
         };
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_spinner_dropdown_item,
-                promptTemplates
-        );
+                android.R.layout.simple_spinner_item,
+                promptTemplates) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                ((TextView) view).setTextColor(Color.parseColor("#b35a02")); // màu chữ ở đây
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                ((TextView) view).setTextColor(Color.parseColor("#b35a02")); // màu chữ dropdown
+                return view;
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setPopupBackgroundResource(R.drawable.bg_spinner_dropdown);
+
 
         // Xử lý dấu hỏi ? (tooltip + toast)
         ImageView helpIcon = findViewById(R.id.helpIcon);

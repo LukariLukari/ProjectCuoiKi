@@ -34,7 +34,7 @@
             cardview:cardCornerRadius="16dp"
             cardview:cardElevation="8dp"
             android:layout_marginBottom="24dp"
-            android:background="#FFFFFF">
+            android:background="#FFF7F1">
 
             <LinearLayout
                 android:layout_width="match_parent"
