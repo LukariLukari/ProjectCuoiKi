@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/bg_item_result">
+
+    <TextView
+        android:id="@+id/textViewSegmentId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID: 1"
+        android:textStyle="bold"
+        android:textColor="#004D40"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewSegmentContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Nội dung dịch của segment sẽ hiển thị ở đây..."
+        android:textColor="#333333"
+        android:textSize="16sp"
+        android:lineSpacingMultiplier="1.2"/>
+
+</LinearLayout> 

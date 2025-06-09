@@ -1,28 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="24dp"
-    android:paddingBottom="32dp"
-    android:paddingStart="32dp"
-    android:paddingEnd="32dp"
-    android:background="#FFFFFF">
+    android:padding="16dp"
+    android:background="#F5F6FA"
+    tools:context=".ResultActivity">
 
-    <!-- Khung hiển thị kết quả dịch -->
-    <TextView
-        android:id="@+id/textTranslatedResult"
+    <!-- Phần hiển thị kết quả dịch (70% màn hình) -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/bg_rounded"
-        android:gravity="top"
-        android:padding="16dp"
-        android:scrollbars="vertical"
-        android:text="Kết quả sau khi dịch sẽ hiển thị tại đây"
-        android:textColor="#b35a02"
-        android:textSize="16sp" />
+        android:layout_weight="7"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        android:layout_marginBottom="16dp">
 
-    <!-- Hàng 2 nút ngang nhau -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewResults"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            tools:listitem="@layout/item_result" />
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Phần hiển thị log (30% màn hình) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nhật ký xử lý (Logs)"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewLogs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            tools:listitem="@layout/item_log" />
+
+    </androidx.cardview.widget.CardView>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,24 +64,22 @@
         <Button
             android:id="@+id/btnExportFile"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Xuất File"
-            android:background="@drawable/bg_rounded_button"
-            android:textColor="#fff" />
-
-        <Space
-            android:layout_width="16dp"
-            android:layout_height="wrap_content" />
+            android:backgroundTint="#FF6F4E"
+            android:textColor="#FFFFFF"
+            android:layout_marginEnd="8dp"/>
 
         <Button
-            android:id="@+id/btnBackToMain"
+            android:id="@+id/btnBack"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Quay về"
-            android:background="@drawable/bg_rounded_button"
-            android:textColor="#fff" />
+            android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="8dp"/>
     </LinearLayout>
 
 </LinearLayout>

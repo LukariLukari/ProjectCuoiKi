@@ -4,22 +4,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:background="#FFFFFF"
     android:clipToPadding="false"
-    android:background="#FFFFFF">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="24dp"
-        android:paddingBottom="32dp"
         android:paddingStart="32dp"
-        android:paddingEnd="32dp">
+        android:paddingTop="24dp"
+        android:paddingEnd="32dp"
+        android:paddingBottom="32dp">
 
         <!-- Khung nhập text -->
-
-        <!-- Nút chọn file -->
         <EditText
             android:id="@+id/editTextInput"
             android:layout_width="match_parent"
@@ -30,45 +28,70 @@
             android:padding="16dp"
             android:textSize="16sp" />
 
+        <!-- Nút chọn file -->
         <Button
             android:id="@+id/btnChooseFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chọn file (.txt)"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_rounded_button"
-            android:textColor="#fff" />
+            android:text="Chọn file (.txt)"
+            android:textColor="#FFFFFF" />
 
         <!-- Ô nhập prompt chính -->
         <EditText
             android:id="@+id/editTextPrompt"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:layout_marginTop="16dp"
-            android:padding="16dp"
-            android:hint="Nhập prompt chính"
-            android:background="@drawable/bg_rounded"
+            android:background="@drawable/bg_edittext"
             android:gravity="top"
-            android:textSize="15sp" />
+            android:hint="Nhập prompt chính"
+            android:inputType="textMultiLine"
+            android:padding="16dp"
+            android:textColor="#333333"
+            android:textColorHint="#999999" />
+
+        <EditText
+            android:id="@+id/editTextSegmentSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="Số ký tự tối đa mỗi segment (ví dụ: 2000)"
+            android:inputType="number"
+            android:padding="16dp"
+            android:textColor="#333333"
+            android:textColorHint="#999999" />
+
+        <TextView
+            android:id="@+id/textViewSegmentResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text=""
+            android:textColor="#00897B"
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <!-- Dòng mô hình miễn phí -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mô hình miễn phí:"
-            android:textStyle="bold"
             android:layout_marginTop="12dp"
+            android:text="Mô hình miễn phí:"
+            android:textColor="#333333"
             android:textSize="14sp"
-            android:textColor="#b35a02" />
+            android:textStyle="bold" />
 
         <!-- RadioGroup + icon ? -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="8dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <RadioGroup
                 android:id="@+id/radioModelGroup"
@@ -81,10 +104,10 @@
                     android:id="@+id/radioGemini"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Gemini 1.0"
-                    android:minHeight="48dp"
                     android:minWidth="48dp"
-                    android:textColor="#b35a02"/>
+                    android:minHeight="48dp"
+                    android:text="Gemini 1.0"
+                    android:textColor="#333333" />
 
                 <Space
                     android:layout_width="16dp"
@@ -94,23 +117,23 @@
                     android:id="@+id/radioDeepseek"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Deepseek V3"
-                    android:minHeight="48dp"
                     android:minWidth="48dp"
-                    android:textColor="#b35a02"/>
+                    android:minHeight="48dp"
+                    android:text="Deepseek V3"
+                    android:textColor="#333333" />
             </RadioGroup>
 
             <ImageView
                 android:id="@+id/helpIcon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_marginStart="12dp"
+                android:clickable="true"
+                android:contentDescription="Trợ giúp"
+                android:focusable="true"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
-                android:layout_marginStart="12dp"
                 android:src="@android:drawable/ic_menu_help"
-                android:contentDescription="Trợ giúp"
-                android:clickable="true"
-                android:focusable="true"
                 android:tooltipText="Đây là mô hình miễn phí, chỉ dùng 1 request/phút và không quá 5000 token" />
         </LinearLayout>
 
@@ -121,22 +144,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_spinner_with_icon"
-            android:paddingEnd="36dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
             android:minHeight="48dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="36dp"
+            android:paddingBottom="12dp"
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:spinnerMode="dropdown" />
+            android.spinnerMode="dropdown" />
+
 
         <!-- Thông tin định dạng -->
         <TextView
             android:id="@+id/textFormats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Định dạng chấp nhận: .txt\nChỉ nhập văn bản thuần"
-            android:textSize="13sp"
             android:layout_marginTop="12dp"
-            android:textColor="#b35a02" />
+            android:text="Định dạng chấp nhận: .txt\nChỉ nhập văn bản thuần"
+            android:textColor="#666666"
+            android:textSize="13sp" />
 
         <!-- Hàng 2 nút cuối -->
         <LinearLayout
@@ -152,7 +176,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_rounded_button"
                 android:text="Dịch"
-                android:textColor="#fff" />
+                android:textColor="#FFFFFF" />
 
             <Space
                 android:layout_width="16dp"
@@ -165,7 +189,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_rounded_button"
                 android:text="Cài đặt"
-                android:textColor="#fff" />
+                android:textColor="#FFFFFF" />
         </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
