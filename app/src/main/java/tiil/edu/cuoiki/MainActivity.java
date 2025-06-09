@@ -41,5 +41,10 @@ public class MainActivity extends AppCompatActivity {
         );
 
         spinner.setAdapter(adapter);
+
+        // Xử lý sự kiện cho nút Cài đặt
+        findViewById(R.id.btnSettings).setOnClickListener(v -> {
+            startActivity(new android.content.Intent(this, SettingsActivity.class));
+        });
     }
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F6FA">
+    android:background="#F5F6FA"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,29 +12,12 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- Nút Setting nằm ngoài khung lớn -->
-        <Button
-            android:id="@+id/btnSetting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Setting"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#4F8EF7"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="24dp"
-            android:drawableLeft="@android:drawable/ic_menu_manage"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"/>
-
-        <!-- Khung lớn chứa các mục nhỏ -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            cardview:cardCornerRadius="16dp"
-            cardview:cardElevation="8dp"
-            android:layout_marginBottom="24dp"
-            android:background="#FFFFFF">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            android:layout_marginBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,7 +28,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Thông tin cấu hình"
+                    android:text="Cấu hình API"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="#333333"
@@ -55,8 +38,8 @@
                     android:id="@+id/editTextApiKey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="API Key"
-                    android:background="@android:drawable/edit_text"
+                    android:hint="OpenAI API Key"
+                    android:inputType="textPassword"
                     android:padding="12dp"
                     android:layout_marginBottom="12dp"/>
 
@@ -64,8 +47,7 @@
                     android:id="@+id/editTextBaseUrl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Base URL"
-                    android:background="@android:drawable/edit_text"
+                    android:hint="Base URL (tùy chọn)"
                     android:padding="12dp"
                     android:layout_marginBottom="12dp"/>
 
@@ -73,18 +55,39 @@
                     android:id="@+id/editTextModel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Model"
-                    android:background="@android:drawable/edit_text"
+                    android:hint="Model (ví dụ: gpt-4o)"
                     android:padding="12dp"
                     android:layout_marginBottom="12dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            android:layout_marginBottom="24dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thông số dịch"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="#333333"
+                    android:layout_marginBottom="16dp"/>
 
                 <EditText
                     android:id="@+id/editTextMaxToken"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Max Token"
+                    android:hint="Max Tokens (ví dụ: 4096)"
                     android:inputType="number"
-                    android:background="@android:drawable/edit_text"
                     android:padding="12dp"
                     android:layout_marginBottom="12dp"/>
 
@@ -92,9 +95,8 @@
                     android:id="@+id/editTextTemperature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Temperature"
+                    android:hint="Temperature (ví dụ: 0.7)"
                     android:inputType="numberDecimal"
-                    android:background="@android:drawable/edit_text"
                     android:padding="12dp"
                     android:layout_marginBottom="12dp"/>
 
@@ -102,23 +104,21 @@
                     android:id="@+id/editTextConcurrentRequests"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Concurrent requests"
+                    android:hint="Số luồng đồng thời (ví dụ: 5)"
                     android:inputType="number"
-                    android:background="@android:drawable/edit_text"
                     android:padding="12dp"
                     android:layout_marginBottom="12dp"/>
-
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <TextView
+        <Button
+            android:id="@+id/btnSaveSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Màn hình cài đặt"
-            android:textStyle="italic"
-            android:textColor="#888888"
-            android:gravity="center"
-            android:layout_marginTop="12dp"
-            android:textSize="16sp"/>
+            android:text="Lưu Cài Đặt"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4F8EF7"
+            android:layout_marginTop="8dp"/>
+
     </LinearLayout>
 </ScrollView>
