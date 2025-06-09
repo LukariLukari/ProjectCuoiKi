@@ -1,29 +1,215 @@
 package tiil.edu.cuoiki;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Button;
-import android.widget.TextView;
-
+import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.openai.client.OpenAIClientAsync;
+import com.openai.client.okhttp.OpenAIOkHttpClientAsync;
+import com.openai.models.chat.completions.ChatCompletionCreateParams;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+import tiil.edu.cuoiki.adapter.LogAdapter;
+import tiil.edu.cuoiki.adapter.ResultAdapter;
+import tiil.edu.cuoiki.model.LogMessage;
+import tiil.edu.cuoiki.model.TranslatedSegment;
 
 public class ResultActivity extends AppCompatActivity {
+
+    private static final String TAG = "ResultActivity";
+    private RecyclerView recyclerViewResults;
+    private RecyclerView recyclerViewLogs;
+    private ResultAdapter resultAdapter;
+    private LogAdapter logAdapter;
+    private List<TranslatedSegment> translatedSegments = new ArrayList<>();
+    private List<LogMessage> logMessages = new ArrayList<>();
+    private ActivityResultLauncher<Intent> saveFileLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        TextView resultView = findViewById(R.id.textTranslatedResult);
-        String result = getIntent().getStringExtra("translated_result");
-        resultView.setText(result != null ? result : "Không có dữ liệu.");
+        setupViews();
+        setupButtons();
+        setupSaveFileLauncher();
 
-        // Xử lý nút "Quay về"
-        Button backBtn = findViewById(R.id.btnBackToMain);
-        backBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(ResultActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish(); // Đóng màn hiện tại
-        });
+        String rawContent = getIntent().getStringExtra("raw_content");
+        String systemPrompt = getIntent().getStringExtra("system_prompt");
+        int maxSegmentSize = getIntent().getIntExtra("max_segment_size", 0);
+        String modelOverride = getIntent().getStringExtra("model_override");
+
+        if (rawContent != null && !rawContent.isEmpty() && systemPrompt != null) {
+            List<String> segmentsToTranslate;
+            if (maxSegmentSize > 0) {
+                segmentsToTranslate = splitTextIntoSegments(rawContent, maxSegmentSize);
+            } else {
+                segmentsToTranslate = new ArrayList<>();
+                segmentsToTranslate.add(rawContent);
+            }
+            initializePlaceholders(segmentsToTranslate.size());
+            startTranslationProcess(segmentsToTranslate, systemPrompt, modelOverride);
+        } else {
+            Toast.makeText(this, "Không có dữ liệu để dịch.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setupViews() {
+        recyclerViewResults = findViewById(R.id.recyclerViewResults);
+        recyclerViewLogs = findViewById(R.id.recyclerViewLogs);
+
+        recyclerViewResults.setLayoutManager(new LinearLayoutManager(this));
+        resultAdapter = new ResultAdapter(translatedSegments);
+        recyclerViewResults.setAdapter(resultAdapter);
+
+        recyclerViewLogs.setLayoutManager(new LinearLayoutManager(this));
+        logAdapter = new LogAdapter(logMessages);
+        recyclerViewLogs.setAdapter(logAdapter);
+    }
+
+    private void setupButtons() {
+        Button btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
+
+        Button btnExportFile = findViewById(R.id.btnExportFile);
+        btnExportFile.setOnClickListener(v -> exportResultsToFile());
+    }
+    
+    private void setupSaveFileLauncher() {
+        saveFileLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Uri uri = result.getData().getData();
+                        try (OutputStream os = getContentResolver().openOutputStream(uri)) {
+                            String fullText = translatedSegments.stream()
+                                    .map(TranslatedSegment::getContent)
+                                    .collect(Collectors.joining("\n\n---\n\n"));
+                            os.write(fullText.getBytes());
+                            Toast.makeText(this, "Đã lưu file thành công!", Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(this, "Lỗi khi lưu file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "File save error", e);
+                        }
+                    }
+                });
+    }
+
+    private void exportResultsToFile() {
+        String fileName = "Translated_Result_" + System.currentTimeMillis() + ".txt";
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TITLE, fileName);
+        saveFileLauncher.launch(intent);
+    }
+
+    private void initializePlaceholders(int count) {
+        for (int i = 0; i < count; i++) {
+            translatedSegments.add(new TranslatedSegment(i + 1, "Đang dịch segment " + (i + 1) + "..."));
+        }
+        resultAdapter.notifyDataSetChanged();
+    }
+
+    private List<String> splitTextIntoSegments(String text, int maxSegmentSize) {
+        List<String> segments = new ArrayList<>();
+        if (text == null || text.isEmpty()) {
+            return segments;
+        }
+
+        String[] lines = text.split("\\r?\\n");
+        StringBuilder currentSegment = new StringBuilder();
+        int currentLength = 0;
+
+        for (String line : lines) {
+            if (currentLength > 0 && currentLength + line.length() + 1 > maxSegmentSize) {
+                segments.add(currentSegment.toString());
+                currentSegment = new StringBuilder();
+                currentLength = 0;
+            }
+            if (currentSegment.length() > 0) {
+                currentSegment.append("\n");
+                currentLength++;
+            }
+            currentSegment.append(line);
+            currentLength += line.length();
+        }
+
+        if (currentSegment.length() > 0) {
+            segments.add(currentSegment.toString());
+        }
+
+        runOnUiThread(() -> addLog("Văn bản đã được tách thành " + segments.size() + " segments.", false));
+
+        return segments;
+    }
+
+    private void startTranslationProcess(List<String> segments, String systemPrompt, String modelOverride) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String apiKey = prefs.getString("api_key", "");
+        String baseUrl = prefs.getString("base_url", "https://api.openai.com/v1/");
+        String modelFromSettings = prefs.getString("model_name", "gpt-3.5-turbo");
+        double temperature = (double) prefs.getFloat("temperature", 0.7f);
+        long maxTokens = prefs.getInt("max_tokens", 2048);
+        int totalSegments = segments.size();
+
+        final String finalModel = modelOverride != null ? modelOverride : modelFromSettings;
+
+        OpenAIClientAsync client = OpenAIOkHttpClientAsync.builder()
+                .apiKey(apiKey)
+                .baseUrl(baseUrl)
+                .build();
+
+        for (int i = 0; i < segments.size(); i++) {
+            final int index = i;
+            String segmentContent = segments.get(i);
+            
+            ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
+                    .model(finalModel)
+                    .addSystemMessage(systemPrompt)
+                    .addUserMessage(segmentContent)
+                    .temperature(temperature)
+                    .maxTokens(maxTokens)
+                    .build();
+
+            client.chat().completions().create(params)
+                .whenCompleteAsync((completion, throwable) -> runOnUiThread(() -> {
+                    if (throwable != null) {
+                        // Handle failure
+                        String errorMessage = "Lỗi: " + throwable.getMessage();
+                        translatedSegments.get(index).setContent("Thất bại: " + errorMessage);
+                        resultAdapter.notifyItemChanged(index);
+                        addLog("Segment " + (index + 1) + "/" + totalSegments + ": Thất bại. " + errorMessage, true);
+                        Log.e(TAG, "API call failed for segment " + index, throwable);
+                    } else {
+                        // Handle success
+                        String result = completion.choices().get(0).message().content().get();
+                        translatedSegments.get(index).setContent(result);
+                        resultAdapter.notifyItemChanged(index);
+                        addLog("Segment " + (index + 1) + "/" + totalSegments + ": Thành công.", false);
+                    }
+                }));
+        }
+    }
+    
+    private void addLog(String message, boolean isError) {
+        String timestamp = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        logMessages.add(new LogMessage("[" + timestamp + "] " + message, isError));
+        logAdapter.notifyItemInserted(logMessages.size() - 1);
+        recyclerViewLogs.scrollToPosition(logMessages.size() - 1);
     }
 }
