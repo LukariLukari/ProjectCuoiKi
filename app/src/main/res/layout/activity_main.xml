@@ -8,10 +8,9 @@
     android:clipToPadding="false"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:paddingStart="32dp"
         android:paddingTop="24dp"
         android:paddingEnd="32dp"
@@ -20,29 +19,51 @@
         <!-- Khung nhập text -->
         <EditText
             android:id="@+id/editTextInput"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="350dp"
             android:background="@drawable/bg_rounded"
             android:gravity="top"
-            android:hint="Nhập text hoặc dán nội dung truyện"
+            android:hint="Nhập text hoặc dán nội dung văn bản"
             android:padding="16dp"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Nút chọn file -->
         <Button
             android:id="@+id/btnChooseFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_rounded_button"
             android:text="Chọn file (.txt)"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextInput" />
+
+        <!-- Dropdown chọn template prompt -->
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinnerPromptTemplate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_spinner_with_icon"
+            android:minHeight="48dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="36dp"
+            android:paddingBottom="12dp"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnChooseFile" />
 
         <!-- Ô nhập prompt chính -->
         <EditText
             android:id="@+id/editTextPrompt"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_edittext"
@@ -51,19 +72,25 @@
             android:inputType="textMultiLine"
             android:padding="16dp"
             android:textColor="#333333"
-            android:textColorHint="#999999" />
+            android:textColorHint="#999999"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinnerPromptTemplate" />
 
         <EditText
             android:id="@+id/editTextSegmentSize"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_edittext"
-            android:hint="Số ký tự tối đa mỗi segment (ví dụ: 2000)"
+            android:hint="Số ký tự tối đa mỗi segment"
             android:inputType="number"
             android:padding="16dp"
             android:textColor="#333333"
-            android:textColorHint="#999999" />
+            android:textColorHint="#999999"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextPrompt" />
 
         <TextView
             android:id="@+id/textViewSegmentResult"
@@ -73,25 +100,34 @@
             android:text=""
             android:textColor="#00897B"
             android:textSize="14sp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextSegmentSize" />
 
         <!-- Dòng mô hình miễn phí -->
         <TextView
+            android:id="@+id/textViewFreeModelLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="Mô hình miễn phí:"
             android:textColor="#333333"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewSegmentResult" />
 
         <!-- RadioGroup + icon ? -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/linearLayoutModelSelection"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewFreeModelLabel">
 
             <RadioGroup
                 android:id="@+id/radioModelGroup"
@@ -137,37 +173,29 @@
                 android:tooltipText="Đây là mô hình miễn phí, chỉ dùng 1 request/phút và không quá 5000 token" />
         </LinearLayout>
 
-        <!-- Dropdown chọn template prompt -->
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/spinnerPromptTemplate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_spinner_with_icon"
-            android:minHeight="48dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="36dp"
-            android:paddingBottom="12dp"
-            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android.spinnerMode="dropdown" />
-
-
         <!-- Thông tin định dạng -->
         <TextView
             android:id="@+id/textFormats"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="Định dạng chấp nhận: .txt\nChỉ nhập văn bản thuần"
             android:textColor="#666666"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linearLayoutModelSelection" />
 
         <!-- Hàng 2 nút cuối -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/buttonsLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textFormats">
 
             <Button
                 android:id="@+id/btnTranslate"
@@ -192,5 +220,5 @@
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
