@@ -240,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
         String apiKey;
         String baseUrl;
         String model;
+        long maxTokens;
 
         // Lấy model được chọn và cấu hình tương ứng
         int selectedId = modelGroup.getCheckedRadioButtonId();
@@ -249,25 +250,30 @@ public class MainActivity extends AppCompatActivity {
             apiKey = GEMINI_API_KEY;
             baseUrl = GEMINI_BASE_URL;
             model = "gemini-1.5-flash-8b";
+            maxTokens = 5000;
         } else if (selectedId == R.id.rbDeepseek) {
             if (!canUseTrial(KEY_DEEPSEEK_USES, "Deepseek V3")) return;
             apiKey = DEEPSEEK_API_KEY;
             baseUrl = DEEPSEEK_BASE_URL;
             model = "deepseek/deepseek-chat-v3-0324:free";
+            maxTokens = 5000;
         } else if (selectedId == R.id.rbGpt4oMini) {
             if (!canUseTrial(KEY_GPT4O_MINI_USES, "GPT-4o mini")) return;
             apiKey = GPT4O_MINI_API_KEY;
             baseUrl = OPENAI_BASE_URL;
             model = "gpt-4o-mini";
+            maxTokens = 5000;
         } else if (selectedId == R.id.rbQwen3) {
             if (!canUseTrial(KEY_QWEN_USES, "Qwen3")) return;
             apiKey = QWEN_API_KEY;
             baseUrl = QWEN_BASE_URL;
             model = "qwen/qwen3-30b-a3b:free";
+            maxTokens = 5000;
         } else {
             apiKey = prefs.getString("api_key", null);
             baseUrl = prefs.getString("base_url", null);
             model = prefs.getString("model_name", null);
+            maxTokens = (long) prefs.getInt("max_tokens", 2048);
         }
 
         if (apiKey == null || baseUrl == null || model == null || apiKey.isEmpty() || apiKey.contains("YOUR_")) {
@@ -286,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("base_url", baseUrl);
         intent.putExtra("model_name", model);
         intent.putExtra("temperature", (double) prefs.getFloat("temperature", 0.7f));
-        intent.putExtra("max_tokens", (long) prefs.getInt("max_tokens", 2048));
+        intent.putExtra("max_tokens", maxTokens);
 
         startActivity(intent);
     }
