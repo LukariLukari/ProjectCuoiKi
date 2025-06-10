@@ -39,17 +39,24 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int OPEN_FILE_REQUEST_CODE = 2;
 
-    private static final String GEMINI_API_KEY = "AI";
+    private static final String GEMINI_API_KEY = "AIzaSyBE9t6KJlfF-CWykXHThNJH4KC8qzvk5Io";
     private static final String GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/";
 
-    private static final String DEEPSEEK_API_KEY = "sk-or-v1-";
+    private static final String DEEPSEEK_API_KEY = "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";
     private static final String DEEPSEEK_BASE_URL = "https://openrouter.ai/api/v1";
 
-    private static final String GPT4O_MINI_API_KEY = "sk-";
+    private static final String GPT4O_MINI_API_KEY = "sk-dXvagaHqAT4dy96q440667DdAd734d0e841b2fBb377fFe6b";
     private static final String OPENAI_BASE_URL = "https://api.sv2.llm.ai.vn/v1";
 
-    private static final String QWEN_API_KEY = "sk-or-v1-";
+    private static final String QWEN_API_KEY = "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";
     private static final String QWEN_BASE_URL = "https://openrouter.ai/api/v1";
+
+    // --- Giới hạn và Key cho lượt dùng thử ---
+    private static final int TRIAL_USE_LIMIT = 5;
+    private static final String KEY_GEMINI_USES = "gemini_trial_uses";
+    private static final String KEY_DEEPSEEK_USES = "deepseek_trial_uses";
+    private static final String KEY_GPT4O_MINI_USES = "gpt4o_mini_trial_uses";
+    private static final String KEY_QWEN_USES = "qwen_trial_uses";
 
     private EditText edtInput;
     private EditText edtSegmentSize;
@@ -238,21 +245,25 @@ public class MainActivity extends AppCompatActivity {
         int selectedId = modelGroup.getCheckedRadioButtonId();
 
         if (selectedId == R.id.rbGemini) {
+            if (!canUseTrial(KEY_GEMINI_USES, "Gemini 1.5 Flash")) return;
             apiKey = GEMINI_API_KEY;
             baseUrl = GEMINI_BASE_URL;
             model = "gemini-1.5-flash-8b";
         } else if (selectedId == R.id.rbDeepseek) {
+            if (!canUseTrial(KEY_DEEPSEEK_USES, "Deepseek V3")) return;
             apiKey = DEEPSEEK_API_KEY;
             baseUrl = DEEPSEEK_BASE_URL;
             model = "deepseek/deepseek-chat-v3-0324:free";
         } else if (selectedId == R.id.rbGpt4oMini) {
+            if (!canUseTrial(KEY_GPT4O_MINI_USES, "GPT-4o mini")) return;
             apiKey = GPT4O_MINI_API_KEY;
             baseUrl = OPENAI_BASE_URL;
             model = "gpt-4o-mini";
         } else if (selectedId == R.id.rbQwen3) {
+            if (!canUseTrial(KEY_QWEN_USES, "Qwen3")) return;
             apiKey = QWEN_API_KEY;
             baseUrl = QWEN_BASE_URL;
-            model = "qwen/qwen3-30b-a3b:free"; 
+            model = "qwen/qwen3-30b-a3b:free";
         } else {
             apiKey = prefs.getString("api_key", null);
             baseUrl = prefs.getString("base_url", null);
@@ -278,5 +289,23 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("max_tokens", (long) prefs.getInt("max_tokens", 2048));
 
         startActivity(intent);
+    }
+
+
+    private boolean canUseTrial(String usageKey, String modelName) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        int currentUses = prefs.getInt(usageKey, 0);
+
+        if (currentUses >= TRIAL_USE_LIMIT) {
+            Toast.makeText(this, "Bạn đã hết " + TRIAL_USE_LIMIT + " lượt dùng thử cho " + modelName, Toast.LENGTH_LONG).show();
+            return false; // Hết lượt
+        }
+
+        // Tăng số lượt đã dùng và lưu lại
+        prefs.edit().putInt(usageKey, currentUses + 1).apply();
+
+        int remaining = TRIAL_USE_LIMIT - (currentUses + 1);
+        Toast.makeText(this, modelName + ": còn " + remaining + " lượt dùng thử.", Toast.LENGTH_SHORT).show();
+        return true; // Được phép dùng
     }
 }
