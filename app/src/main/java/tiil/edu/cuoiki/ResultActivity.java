@@ -95,25 +95,7 @@ public class ResultActivity extends AppCompatActivity {
         btnExportFile.setOnClickListener(v -> exportResultsToFile());
     }
     
-    private void setupSaveFileLauncher() {
-        saveFileLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        Uri uri = result.getData().getData();
-                        try (OutputStream os = getContentResolver().openOutputStream(uri)) {
-                            String fullText = translatedSegments.stream()
-                                    .map(TranslatedSegment::getContent)
-                                    .collect(Collectors.joining("\n\n---\n\n"));
-                            os.write(fullText.getBytes());
-                            Toast.makeText(this, "Đã lưu file thành công!", Toast.LENGTH_SHORT).show();
-                        } catch (Exception e) {
-                            Toast.makeText(this, "Lỗi khi lưu file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "File save error", e);
-                        }
-                    }
-                });
-    }
+    
 
     private void exportResultsToFile() {
         String fileName = "Translated_Result_" + System.currentTimeMillis() + ".txt";
