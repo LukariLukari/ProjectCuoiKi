@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Giao diện màn hình chính, cho phép nhập liệu, chọn file và cấu hình phiên dịch. -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
@@ -16,9 +17,8 @@
         android:paddingEnd="32dp"
         android:paddingBottom="32dp">
 
-        <!-- Khung nhập text -->
         <EditText
-            android:id="@+id/editTextInput"
+            android:id="@+id/edtInput"
             android:layout_width="0dp"
             android:layout_height="350dp"
             android:background="@drawable/bg_rounded"
@@ -30,7 +30,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Nút chọn file -->
         <Button
             android:id="@+id/btnChooseFile"
             android:layout_width="wrap_content"
@@ -41,11 +40,10 @@
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextInput" />
+            app:layout_constraintTop_toBottomOf="@id/edtInput" />
 
-        <!-- Dropdown chọn template prompt -->
         <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/spinnerPromptTemplate"
+            android:id="@+id/spnPromptTemplate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -60,9 +58,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnChooseFile" />
 
-        <!-- Ô nhập prompt chính -->
         <EditText
-            android:id="@+id/editTextPrompt"
+            android:id="@+id/edtPrompt"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
@@ -75,10 +72,10 @@
             android:textColorHint="#999999"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/spinnerPromptTemplate" />
+            app:layout_constraintTop_toBottomOf="@id/spnPromptTemplate" />
 
         <EditText
-            android:id="@+id/editTextSegmentSize"
+            android:id="@+id/edtSegmentSize"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -90,10 +87,10 @@
             android:textColorHint="#999999"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextPrompt" />
+            app:layout_constraintTop_toBottomOf="@id/edtPrompt" />
 
         <TextView
-            android:id="@+id/textViewSegmentResult"
+            android:id="@+id/txtSegmentResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -102,11 +99,10 @@
             android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextSegmentSize" />
+            app:layout_constraintTop_toBottomOf="@id/edtSegmentSize" />
 
-        <!-- Dòng mô hình miễn phí -->
         <TextView
-            android:id="@+id/textViewFreeModelLabel"
+            android:id="@+id/txtFreeModelLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -115,67 +111,59 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewSegmentResult" />
+            app:layout_constraintTop_toBottomOf="@id/txtSegmentResult" />
 
-        <!-- RadioGroup + icon ? -->
-        <LinearLayout
-            android:id="@+id/linearLayoutModelSelection"
+        <RadioGroup
+            android:id="@+id/rgModelGroup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ivHelpIcon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewFreeModelLabel">
+            app:layout_constraintTop_toBottomOf="@id/txtFreeModelLabel">
 
-            <RadioGroup
-                android:id="@+id/radioModelGroup"
-                android:layout_width="0dp"
+            <RadioButton
+                android:id="@+id/rbGemini"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioGemini"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-                    android:text="Gemini 1.0"
-                    android:textColor="#333333" />
-
-                <Space
-                    android:layout_width="16dp"
-                    android:layout_height="wrap_content" />
-
-                <RadioButton
-                    android:id="@+id/radioDeepseek"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-                    android:text="Deepseek V3"
-                    android:textColor="#333333" />
-            </RadioGroup>
-
-            <ImageView
-                android:id="@+id/helpIcon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="12dp"
-                android:clickable="true"
-                android:contentDescription="Trợ giúp"
-                android:focusable="true"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
-                android:src="@android:drawable/ic_menu_help"
-                android:tooltipText="Đây là mô hình miễn phí, chỉ dùng 1 request/phút và không quá 5000 token" />
-        </LinearLayout>
+                android:text="Gemini 1.0"
+                android:textColor="#333333" />
 
-        <!-- Thông tin định dạng -->
+            <Space
+                android:layout_width="16dp"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:id="@+id/rbDeepseek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:text="Deepseek V3"
+                android:textColor="#333333" />
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/ivHelpIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="12dp"
+            android:clickable="true"
+            android:contentDescription="Trợ giúp"
+            android:focusable="true"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@android:drawable/ic_menu_help"
+            android:tooltipText="Đây là mô hình miễn phí, chỉ dùng 1 request/phút và không quá 5000 token"
+            app:layout_constraintBottom_toBottomOf="@+id/rgModelGroup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rgModelGroup" />
+
         <TextView
-            android:id="@+id/textFormats"
+            android:id="@+id/txtFormats"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -184,41 +172,33 @@
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linearLayoutModelSelection" />
+            app:layout_constraintTop_toBottomOf="@id/rgModelGroup" />
 
-        <!-- Hàng 2 nút cuối -->
-        <LinearLayout
-            android:id="@+id/buttonsLayout"
+        <Button
+            android:id="@+id/btnTranslate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_rounded_button"
+            android:text="Dịch"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toStartOf="@+id/btnSettings"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textFormats">
+            app:layout_constraintTop_toBottomOf="@id/txtFormats" />
 
-            <Button
-                android:id="@+id/btnTranslate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/bg_rounded_button"
-                android:text="Dịch"
-                android:textColor="#FFFFFF" />
-
-            <Space
-                android:layout_width="16dp"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/btnSettings"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/bg_rounded_button"
-                android:text="Cài đặt"
-                android:textColor="#FFFFFF" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_rounded_button"
+            android:text="Cài đặt"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnTranslate"
+            app:layout_constraintTop_toBottomOf="@id/txtFormats" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

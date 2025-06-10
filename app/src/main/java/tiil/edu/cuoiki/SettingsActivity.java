@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private EditText apiKeyInput, baseUrlInput, modelNameInput, tempInput, maxTokensInput;
+    private EditText edtApiKey, edtBaseUrl, edtModel, edtTemperature, edtMaxTokens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +19,11 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         // Ánh xạ các view
-        apiKeyInput = findViewById(R.id.editTextApiKey);
-        baseUrlInput = findViewById(R.id.editTextBaseUrl);
-        modelNameInput = findViewById(R.id.editTextModel);
-        tempInput = findViewById(R.id.editTextTemperature);
-        maxTokensInput = findViewById(R.id.editTextMaxToken);
+        edtApiKey = findViewById(R.id.edtApiKey);
+        edtBaseUrl = findViewById(R.id.edtBaseUrl);
+        edtModel = findViewById(R.id.edtModel);
+        edtTemperature = findViewById(R.id.edtTemperature);
+        edtMaxTokens = findViewById(R.id.edtMaxToken);
 
         // Load cài đặt đã lưu
         loadSettings();
@@ -39,25 +39,25 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void loadSettings() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        apiKeyInput.setText(prefs.getString("api_key", ""));
-        baseUrlInput.setText(prefs.getString("base_url", "https://api.openai.com/v1/"));
-        modelNameInput.setText(prefs.getString("model_name", "gpt-3.5-turbo"));
-        tempInput.setText(String.valueOf(prefs.getFloat("temperature", 0.7f)));
-        maxTokensInput.setText(String.valueOf(prefs.getInt("max_tokens", 2048)));
+        edtApiKey.setText(prefs.getString("api_key", ""));
+        edtBaseUrl.setText(prefs.getString("base_url", "https://api.openai.com/v1/"));
+        edtModel.setText(prefs.getString("model_name", "gpt-3.5-turbo"));
+        edtTemperature.setText(String.valueOf(prefs.getFloat("temperature", 0.7f)));
+        edtMaxTokens.setText(String.valueOf(prefs.getInt("max_tokens", 2048)));
     }
 
     private void saveSettings() {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putString("api_key", apiKeyInput.getText().toString().trim());
-        editor.putString("base_url", baseUrlInput.getText().toString().trim());
-        editor.putString("model_name", modelNameInput.getText().toString().trim());
+        editor.putString("api_key", edtApiKey.getText().toString().trim());
+        editor.putString("base_url", edtBaseUrl.getText().toString().trim());
+        editor.putString("model_name", edtModel.getText().toString().trim());
         try {
-            editor.putFloat("temperature", Float.parseFloat(tempInput.getText().toString()));
+            editor.putFloat("temperature", Float.parseFloat(edtTemperature.getText().toString()));
         } catch (NumberFormatException e) {
             editor.putFloat("temperature", 0.7f); // giá trị mặc định nếu nhập sai
         }
         try {
-            editor.putInt("max_tokens", Integer.parseInt(maxTokensInput.getText().toString().trim()));
+            editor.putInt("max_tokens", Integer.parseInt(edtMaxTokens.getText().toString().trim()));
         } catch (NumberFormatException e) {
             editor.putInt("max_tokens", 2048); // giá trị mặc định nếu nhập sai
         }

@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final int OPEN_FILE_REQUEST_CODE = 2;
-    private EditText editTextInput;
-    private EditText editTextSegmentSize;
-    private TextView textViewSegmentResult;
+    private EditText edtInput;
+    private EditText edtSegmentSize;
+    private TextView txtSegmentResult;
     private String textFromFile = ""; // Biến lưu nội dung từ file
 
     @Override
@@ -46,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        editTextInput = findViewById(R.id.editTextInput);
-        editTextSegmentSize = findViewById(R.id.editTextSegmentSize);
-        textViewSegmentResult = findViewById(R.id.textViewSegmentResult);
+        edtInput = findViewById(R.id.edtInput);
+        edtSegmentSize = findViewById(R.id.edtSegmentSize);
+        txtSegmentResult = findViewById(R.id.txtSegmentResult);
 
         // Đặt giới hạn ký tự cho EditText
         final int MAX_CHAR_LIMIT = 15000;
-        editTextInput.setFilters(new InputFilter[] {
+        edtInput.setFilters(new InputFilter[] {
             new InputFilter.LengthFilter(MAX_CHAR_LIMIT),
             (source, start, end, dest, dstart, dend) -> {
                 int newLength = dest.length() + (end - start);
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Spinner
-        Spinner spinner = findViewById(R.id.spinnerPromptTemplate);
+        Spinner spinner = findViewById(R.id.spnPromptTemplate);
         String[] promptTemplates = {
                 "Dịch tự nhiên",
                 "Dịch sát nghĩa",
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Xử lý dấu hỏi ? (tooltip + toast)
-        ImageView helpIcon = findViewById(R.id.helpIcon);
+        ImageView helpIcon = findViewById(R.id.ivHelpIcon);
         helpIcon.setOnClickListener(v -> {
             View popupView = LayoutInflater.from(this).inflate(R.layout.popup_tooltip, null, false);
 
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             // Không set text vào EditText, chỉ lưu vào biến
             textFromFile = stringBuilder.toString();
             // Cập nhật EditText với thông báo
-            editTextInput.setText("[Đã tải file thành công với " + textFromFile.length() + " ký tự. Sẵn sàng dịch.]");
+            edtInput.setText("[Đã tải file thành công với " + textFromFile.length() + " ký tự. Sẵn sàng dịch.]");
             Toast.makeText(this, "Đã tải file.", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.e(TAG, "Error reading file", e);
@@ -188,21 +188,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void translateText() {
-        EditText promptText = findViewById(R.id.editTextPrompt);
-        Spinner spinner = findViewById(R.id.spinnerPromptTemplate);
-        RadioGroup modelGroup = findViewById(R.id.radioModelGroup);
+        EditText promptText = findViewById(R.id.edtPrompt);
+        Spinner spinner = findViewById(R.id.spnPromptTemplate);
+        RadioGroup modelGroup = findViewById(R.id.rgModelGroup);
 
         String content;
         // Ưu tiên nội dung từ file nếu có, nếu không thì lấy từ EditText
         if (!textFromFile.isEmpty()) {
             content = textFromFile;
         } else {
-            content = editTextInput.getText().toString().trim();
+            content = edtInput.getText().toString().trim();
         }
 
         String mainPrompt = promptText.getText().toString().trim();
         String templatePrompt = spinner.getSelectedItem().toString();
-        String segmentSizeStr = editTextSegmentSize.getText().toString().trim();
+        String segmentSizeStr = edtSegmentSize.getText().toString().trim();
 
         if (content.isEmpty()) {
             Toast.makeText(this, "Vui lòng nhập nội dung hoặc chọn file", Toast.LENGTH_SHORT).show();
@@ -228,9 +228,9 @@ public class MainActivity extends AppCompatActivity {
         // Lấy model được chọn
         int selectedId = modelGroup.getCheckedRadioButtonId();
         String modelOverride = null;
-        if (selectedId == R.id.radioGemini) {
+        if (selectedId == R.id.rbGemini) {
             modelOverride = "gemini-1.0-pro";
-        } else if (selectedId == R.id.radioDeepseek) {
+        } else if (selectedId == R.id.rbDeepseek) {
             modelOverride = "deepseek-chat";
         }
         if (modelOverride != null) {

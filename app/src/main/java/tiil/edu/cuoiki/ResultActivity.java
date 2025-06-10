@@ -31,8 +31,8 @@ import tiil.edu.cuoiki.model.TranslatedSegment;
 public class ResultActivity extends AppCompatActivity {
 
     private static final String TAG = "ResultActivity";
-    private RecyclerView recyclerViewResults;
-    private RecyclerView recyclerViewLogs;
+    private RecyclerView rvResults;
+    private RecyclerView rvLogs;
     private ResultAdapter resultAdapter;
     private LogAdapter logAdapter;
     private List<TranslatedSegment> translatedSegments = new ArrayList<>();
@@ -69,16 +69,16 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        recyclerViewResults = findViewById(R.id.recyclerViewResults);
-        recyclerViewLogs = findViewById(R.id.recyclerViewLogs);
+        rvResults = findViewById(R.id.rvResults);
+        rvLogs = findViewById(R.id.rvLogs);
 
-        recyclerViewResults.setLayoutManager(new LinearLayoutManager(this));
+        rvResults.setLayoutManager(new LinearLayoutManager(this));
         resultAdapter = new ResultAdapter(translatedSegments);
-        recyclerViewResults.setAdapter(resultAdapter);
+        rvResults.setAdapter(resultAdapter);
 
-        recyclerViewLogs.setLayoutManager(new LinearLayoutManager(this));
+        rvLogs.setLayoutManager(new LinearLayoutManager(this));
         logAdapter = new LogAdapter(logMessages);
-        recyclerViewLogs.setAdapter(logAdapter);
+        rvLogs.setAdapter(logAdapter);
     }
 
     private void setupButtons() {
@@ -210,6 +210,6 @@ public class ResultActivity extends AppCompatActivity {
         String timestamp = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
         logMessages.add(new LogMessage("[" + timestamp + "] " + message, isError));
         logAdapter.notifyItemInserted(logMessages.size() - 1);
-        recyclerViewLogs.scrollToPosition(logMessages.size() - 1);
+        rvLogs.scrollToPosition(logMessages.size() - 1);
     }
 }
