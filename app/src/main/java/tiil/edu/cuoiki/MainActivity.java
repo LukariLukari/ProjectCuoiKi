@@ -39,16 +39,16 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int OPEN_FILE_REQUEST_CODE = 2;
 
-    private static final String GEMINI_API_KEY = "AIzaSyBE9t6KJlfF-CWykXHThNJH4KC8qzvk5Io";
+    private static final String GEMINI_API_KEY = "AI";
     private static final String GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/";
 
-    private static final String DEEPSEEK_API_KEY = "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";
+    private static final String DEEPSEEK_API_KEY = "sk-or-v1";
     private static final String DEEPSEEK_BASE_URL = "https://openrouter.ai/api/v1";
 
-    private static final String GPT4O_MINI_API_KEY = "sk-dXvagaHqAT4dy96q440667DdAd734d0e841b2fBb377fFe6b";
+    private static final String GPT4O_MINI_API_KEY = "sk-";
     private static final String OPENAI_BASE_URL = "https://api.sv2.llm.ai.vn/v1";
 
-    private static final String QWEN_API_KEY = "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";
+    private static final String QWEN_API_KEY = "sk-or-v13";
     private static final String QWEN_BASE_URL = "https://openrouter.ai/api/v1";
 
     // --- Giới hạn và Key cho lượt dùng thử ---
