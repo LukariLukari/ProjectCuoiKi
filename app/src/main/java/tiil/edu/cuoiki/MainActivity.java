@@ -31,15 +31,30 @@ import java.io.InputStreamReader;
 import android.net.Uri;
 import androidx.annotation.Nullable;
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final int OPEN_FILE_REQUEST_CODE = 2;
+
+    private static final String GEMINI_API_KEY = "AI";
+    private static final String GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/";
+
+    private static final String DEEPSEEK_API_KEY = "sk-or-v1-";
+    private static final String DEEPSEEK_BASE_URL = "https://openrouter.ai/api/v1";
+
+    private static final String GPT4O_MINI_API_KEY = "sk-";
+    private static final String OPENAI_BASE_URL = "https://api.sv2.llm.ai.vn/v1";
+
+    private static final String QWEN_API_KEY = "sk-or-v1-";
+    private static final String QWEN_BASE_URL = "https://openrouter.ai/api/v1";
+
     private EditText edtInput;
     private EditText edtSegmentSize;
     private TextView txtSegmentResult;
-    private String textFromFile = ""; // Biến lưu nội dung từ file
+    private String textFromFile = ""; 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +79,10 @@ public class MainActivity extends AppCompatActivity {
                     ).show());
                     return source.subSequence(0, dest.length() > dstart ? dest.length() - dstart : 0);
                 }
-                return null; // Chấp nhận thay đổi
+                return null; 
             }
         });
 
-        // Áp insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -106,8 +120,6 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
         spinner.setPopupBackgroundResource(R.drawable.bg_spinner_dropdown);
 
-
-        // Xử lý dấu hỏi ? (tooltip + toast)
         ImageView helpIcon = findViewById(R.id.ivHelpIcon);
         helpIcon.setOnClickListener(v -> {
             View popupView = LayoutInflater.from(this).inflate(R.layout.popup_tooltip, null, false);
@@ -176,9 +188,7 @@ public class MainActivity extends AppCompatActivity {
             while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line).append('\n');
             }
-            // Không set text vào EditText, chỉ lưu vào biến
             textFromFile = stringBuilder.toString();
-            // Cập nhật EditText với thông báo
             edtInput.setText("[Đã tải file thành công với " + textFromFile.length() + " ký tự. Sẵn sàng dịch.]");
             Toast.makeText(this, "Đã tải file.", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
@@ -191,9 +201,9 @@ public class MainActivity extends AppCompatActivity {
         EditText promptText = findViewById(R.id.edtPrompt);
         Spinner spinner = findViewById(R.id.spnPromptTemplate);
         RadioGroup modelGroup = findViewById(R.id.rgModelGroup);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         String content;
-        // Ưu tiên nội dung từ file nếu có, nếu không thì lấy từ EditText
         if (!textFromFile.isEmpty()) {
             content = textFromFile;
         } else {
@@ -219,23 +229,53 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        // Các biến cấu hình sẽ được gửi đi
+        String apiKey;
+        String baseUrl;
+        String model;
+
+        // Lấy model được chọn và cấu hình tương ứng
+        int selectedId = modelGroup.getCheckedRadioButtonId();
+
+        if (selectedId == R.id.rbGemini) {
+            apiKey = GEMINI_API_KEY;
+            baseUrl = GEMINI_BASE_URL;
+            model = "gemini-1.5-flash-8b";
+        } else if (selectedId == R.id.rbDeepseek) {
+            apiKey = DEEPSEEK_API_KEY;
+            baseUrl = DEEPSEEK_BASE_URL;
+            model = "deepseek/deepseek-chat-v3-0324:free";
+        } else if (selectedId == R.id.rbGpt4oMini) {
+            apiKey = GPT4O_MINI_API_KEY;
+            baseUrl = OPENAI_BASE_URL;
+            model = "gpt-4o-mini";
+        } else if (selectedId == R.id.rbQwen3) {
+            apiKey = QWEN_API_KEY;
+            baseUrl = QWEN_BASE_URL;
+            model = "qwen/qwen3-30b-a3b:free"; 
+        } else {
+            apiKey = prefs.getString("api_key", null);
+            baseUrl = prefs.getString("base_url", null);
+            model = prefs.getString("model_name", null);
+        }
+
+        if (apiKey == null || baseUrl == null || model == null || apiKey.isEmpty() || apiKey.contains("YOUR_")) {
+            Toast.makeText(this, "Vui lòng chọn một mô hình hoặc cấu hình đầy đủ trong Cài đặt.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         // Chuyển màn hình ngay lập tức
         Intent intent = new Intent(MainActivity.this, ResultActivity.class);
         intent.putExtra("raw_content", content);
         intent.putExtra("system_prompt", "System Prompt: " + templatePrompt + "\n\nUser Prompt: " + mainPrompt);
         intent.putExtra("max_segment_size", maxSegmentSize);
 
-        // Lấy model được chọn
-        int selectedId = modelGroup.getCheckedRadioButtonId();
-        String modelOverride = null;
-        if (selectedId == R.id.rbGemini) {
-            modelOverride = "gemini-1.0-pro";
-        } else if (selectedId == R.id.rbDeepseek) {
-            modelOverride = "deepseek-chat";
-        }
-        if (modelOverride != null) {
-            intent.putExtra("model_override", modelOverride);
-        }
+        // Đưa toàn bộ thông tin cấu hình vào intent
+        intent.putExtra("api_key", apiKey);
+        intent.putExtra("base_url", baseUrl);
+        intent.putExtra("model_name", model);
+        intent.putExtra("temperature", (double) prefs.getFloat("temperature", 0.7f));
+        intent.putExtra("max_tokens", (long) prefs.getInt("max_tokens", 2048));
 
         startActivity(intent);
     }

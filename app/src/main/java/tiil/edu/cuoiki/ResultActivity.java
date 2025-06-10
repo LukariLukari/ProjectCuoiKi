@@ -51,7 +51,13 @@ public class ResultActivity extends AppCompatActivity {
         String rawContent = getIntent().getStringExtra("raw_content");
         String systemPrompt = getIntent().getStringExtra("system_prompt");
         int maxSegmentSize = getIntent().getIntExtra("max_segment_size", 0);
-        String modelOverride = getIntent().getStringExtra("model_override");
+
+        // Nhận toàn bộ cấu hình từ Intent
+        String apiKey = getIntent().getStringExtra("api_key");
+        String baseUrl = getIntent().getStringExtra("base_url");
+        String model = getIntent().getStringExtra("model_name");
+        double temperature = getIntent().getDoubleExtra("temperature", 0.7);
+        long maxTokens = getIntent().getLongExtra("max_tokens", 2048);
 
         if (rawContent != null && !rawContent.isEmpty() && systemPrompt != null) {
             List<String> segmentsToTranslate;
@@ -62,7 +68,7 @@ public class ResultActivity extends AppCompatActivity {
                 segmentsToTranslate.add(rawContent);
             }
             initializePlaceholders(segmentsToTranslate.size());
-            startTranslationProcess(segmentsToTranslate, systemPrompt, modelOverride);
+            startTranslationProcess(segmentsToTranslate, systemPrompt, apiKey, baseUrl, model, temperature, maxTokens);
         } else {
             Toast.makeText(this, "Không có dữ liệu để dịch.", Toast.LENGTH_SHORT).show();
         }
@@ -158,16 +164,10 @@ public class ResultActivity extends AppCompatActivity {
         return segments;
     }
 
-    private void startTranslationProcess(List<String> segments, String systemPrompt, String modelOverride) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String apiKey = prefs.getString("api_key", "");
-        String baseUrl = prefs.getString("base_url", "https://api.openai.com/v1/");
-        String modelFromSettings = prefs.getString("model_name", "gpt-3.5-turbo");
-        double temperature = (double) prefs.getFloat("temperature", 0.7f);
-        long maxTokens = prefs.getInt("max_tokens", 2048);
+    private void startTranslationProcess(List<String> segments, String systemPrompt,
+                                       String apiKey, String baseUrl, String model,
+                                       double temperature, long maxTokens) {
         int totalSegments = segments.size();
-
-        final String finalModel = modelOverride != null ? modelOverride : modelFromSettings;
 
         OpenAIClientAsync client = OpenAIOkHttpClientAsync.builder()
                 .apiKey(apiKey)
@@ -179,7 +179,7 @@ public class ResultActivity extends AppCompatActivity {
             String segmentContent = segments.get(i);
             
             ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
-                    .model(finalModel)
+                    .model(model)
                     .addSystemMessage(systemPrompt)
                     .addUserMessage(segmentContent)
                     .temperature(temperature)
