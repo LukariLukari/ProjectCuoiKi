@@ -37,7 +37,8 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_rounded_button"
             android:text="Chọn file (.txt)"
-            android:textColor="#FFFFFF"
+            android:textColor="#333333"
+            app:backgroundTint="#FF6F4E"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edtInput" />
@@ -182,7 +183,8 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/bg_rounded_button"
             android:text="Dịch"
-            android:textColor="#FFFFFF"
+            android:textColor="#333333"
+            app:backgroundTint="#FF6F4E"
             app:layout_constraintEnd_toStartOf="@+id/btnSettings"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtFormats" />
@@ -195,7 +197,8 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/bg_rounded_button"
             android:text="Cài đặt"
-            android:textColor="#FFFFFF"
+            android:textColor="#333333"
+            app:backgroundTint="#FF6F4E"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnTranslate"
             app:layout_constraintTop_toBottomOf="@id/txtFormats" />

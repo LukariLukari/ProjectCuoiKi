@@ -21,7 +21,7 @@
             android:paddingRight="16dp"
             android:text="Cài Đặt"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="#333333"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:text="Lưu cài đặt"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="#333333"
             android:backgroundTint="#4CAF50"
             android:background="@drawable/bg_rounded_button"
             android:layout_marginTop="16dp"
