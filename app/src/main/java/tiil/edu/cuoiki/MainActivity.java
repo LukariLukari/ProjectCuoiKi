@@ -310,6 +310,8 @@ public class MainActivity extends AppCompatActivity {
         // Tăng số lượt đã dùng và lưu lại
         prefs.edit().putInt(usageKey, currentUses + 1).apply();
 
-
+        int remaining = TRIAL_USE_LIMIT - (currentUses + 1);
+        Toast.makeText(this, modelName + ": còn " + remaining + " lượt dùng thử.", Toast.LENGTH_SHORT).show();
+        return true; // Được phép dùng
     }
 }
