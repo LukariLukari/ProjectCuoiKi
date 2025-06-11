@@ -12,6 +12,6 @@
         <bitmap
             android:src="@android:drawable/arrow_down_float"
             android:gravity="center"
-        android:tileMode="disabled" />
+            android:tileMode="disabled" />
     </item>
 </layer-list>
