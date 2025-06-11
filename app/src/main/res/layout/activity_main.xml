@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Giao diện màn hình chính, cho phép nhập liệu, chọn file và cấu hình phiên dịch. -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="?android:attr/windowBackground"
     android:clipToPadding="false"
     android:fitsSystemWindows="true">
 
@@ -21,11 +20,13 @@
             android:id="@+id/edtInput"
             android:layout_width="0dp"
             android:layout_height="350dp"
-            android:background="@drawable/bg_rounded"
+            android:background="@drawable/bg_edittext_custom"
             android:gravity="top"
             android:hint="Nhập text hoặc dán nội dung văn bản"
             android:padding="16dp"
             android:textSize="16sp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textColorHint="?android:attr/textColorHint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,8 +38,12 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_rounded_button"
             android:text="Chọn file (.txt)"
-            android:textColor="#333333"
+            android:textColor="#ffff"
             app:backgroundTint="#FF6F4E"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edtInput" />
@@ -64,13 +69,13 @@
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/bg_edittext"
+            android:background="@drawable/bg_edittext_custom"
             android:gravity="top"
             android:hint="Nhập prompt chính"
             android:inputType="textMultiLine"
             android:padding="16dp"
-            android:textColor="#333333"
-            android:textColorHint="#999999"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textColorHint="?android:attr/textColorHint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/spnPromptTemplate" />
@@ -80,12 +85,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_edittext"
+            android:background="@drawable/bg_edittext_custom"
             android:hint="Số ký tự tối đa mỗi segment"
             android:inputType="number"
             android:padding="16dp"
-            android:textColor="#333333"
-            android:textColorHint="#999999"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textColorHint="?android:attr/textColorHint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edtPrompt" />
@@ -96,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text=""
-            android:textColor="#00897B"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="Mô hình miễn phí:"
-            android:textColor="#333333"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -131,7 +136,7 @@
                 android:minWidth="48dp"
                 android:minHeight="48dp"
                 android:text="Gemini 1.5 Flash"
-                android:textColor="#333333" />
+                android:textColor="?android:attr/textColorPrimary" />
 
             <RadioButton
                 android:id="@+id/rbDeepseek"
@@ -140,7 +145,7 @@
                 android:minWidth="48dp"
                 android:minHeight="48dp"
                 android:text="Deepseek V3"
-                android:textColor="#333333" />
+                android:textColor="?android:attr/textColorPrimary" />
 
             <RadioButton
                 android:id="@+id/rbGpt4oMini"
@@ -149,7 +154,7 @@
                 android:minWidth="48dp"
                 android:minHeight="48dp"
                 android:text="GPT-4o mini"
-                android:textColor="#333333" />
+                android:textColor="?android:attr/textColorPrimary" />
 
             <RadioButton
                 android:id="@+id/rbQwen3"
@@ -158,7 +163,7 @@
                 android:minWidth="48dp"
                 android:minHeight="48dp"
                 android:text="Qwen3"
-                android:textColor="#333333" />
+                android:textColor="?android:attr/textColorPrimary" />
         </RadioGroup>
 
         <ImageView
@@ -183,7 +188,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="Định dạng chấp nhận: .txt\nChỉ nhập văn bản thuần"
-            android:textColor="#666666"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -197,7 +202,7 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/bg_rounded_button"
             android:text="Dịch"
-            android:textColor="#333333"
+            android:textColor="#ffff"
             app:backgroundTint="#FF6F4E"
             app:layout_constraintEnd_toStartOf="@+id/btnSettings"
             app:layout_constraintStart_toStartOf="parent"
@@ -211,7 +216,7 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/bg_rounded_button"
             android:text="Cài đặt"
-            android:textColor="#333333"
+            android:textColor="#ffff"
             app:backgroundTint="#FF6F4E"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnTranslate"

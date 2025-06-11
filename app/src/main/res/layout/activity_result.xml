@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Layout for the result screen, showing translated segments and logs. -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F6FA"
+    android:background="?android:attr/windowBackground"
     android:padding="16dp"
     tools:context=".ResultActivity">
 
@@ -37,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="Nhật ký xử lý (Logs)"
-        android:textColor="#333333"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/cvLogs"
@@ -70,8 +69,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:backgroundTint="#FF6F4E"
+        android:background="@drawable/bg_rounded"
         android:text="Xuất File"
-        android:textColor="#333333"
+        android:textColor="#ffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnBack"
         app:layout_constraintStart_toStartOf="parent" />
@@ -82,8 +82,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:backgroundTint="#FF6F4E"
+        android:background="@drawable/bg_rounded"
         android:text="Quay về"
-        android:textColor="#333333"
+        android:textColor="#ffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnExportFile" />
