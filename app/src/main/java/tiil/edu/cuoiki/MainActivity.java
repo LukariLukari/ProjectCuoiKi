@@ -18,13 +18,11 @@ import android.widget.RadioGroup;
 import android.graphics.Color;
 import android.widget.TextView;
 import android.text.InputFilter;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
